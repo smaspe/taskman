@@ -24,18 +24,19 @@ const App = ({ classes }) => (
                 </Typography>
             </Toolbar>
         </AppBar>
-        <div className="main" style={{ position: 'relative' }}>
+        <div className="main" >
             <div className="menu">
                 <Paper className={classes.paper}>
                     <Filters />
                 </Paper>
             </div>
             <div className="content">
-                <Paper className={classes.paper} style={{ paddingBottom: '88px' }}>
+                <Paper className={classes.paper} style={{ flex: 1, marginBottom: 0, display: 'flex', flexDirection: 'column' }}>
                     <TaskList />
+                    <AddTask />
                 </Paper>
-                <AddTask />
             </div>
+
         </div>
         <EditTask />
     </div>

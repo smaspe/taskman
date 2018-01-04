@@ -15,10 +15,12 @@ const AddTask = ({ classes, dispatch }) => {
 
 const styles = theme => ({
     button: {
-        position: 'absolute',
-        right: 3 * theme.spacing.unit,
-        bottom: 3 * theme.spacing.unit,
-        left: 'auto'
+        position: 'sticky',
+        flexShrink: 0,
+        bottom: 2 * theme.spacing.unit,
+        right: 0,
+        margin: 2 * theme.spacing.unit,
+        marginLeft: 'auto'
     }
 });
 
