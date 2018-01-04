@@ -40,3 +40,10 @@ html{
   display: flex;
   flex-direction: column;
 }
+
+.innerContent {
+  flex: 1;
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+}

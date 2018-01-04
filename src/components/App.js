@@ -31,12 +31,11 @@ const App = ({ classes }) => (
                 </Paper>
             </div>
             <div className="content">
-                <Paper className={classes.paper} style={{ flex: 1, marginBottom: 0, display: 'flex', flexDirection: 'column' }}>
+                <Paper className={classes.paper + " innerContent"}>
                     <TaskList />
                     <AddTask />
                 </Paper>
             </div>
-
         </div>
         <EditTask />
     </div>
