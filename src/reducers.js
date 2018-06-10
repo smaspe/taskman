@@ -1,4 +1,4 @@
-import { ADD_TASK, SET_TASK_STATUS, TASK_STATUS, SET_FILTER, MOVE_BY_INDICES, EDIT_TASK, CANCEL_EDIT, SAVE_TASK, UPDATE_TASK } from "./actions";
+import { EDIT_NEW_TASK, SET_TASK_STATUS, TASK_STATUS, SET_FILTER, MOVE_BY_INDICES, EDIT_TASK, DISMISS_EDIT, SAVE_TASK, UPDATE_EDITED_TASK } from "./actions";
 import { arrayMove } from "react-sortable-hoc/dist/commonjs/utils";
 
 export function taskList(state = [], action) {
@@ -8,11 +8,11 @@ export function taskList(state = [], action) {
                 ? { ...task, status: action.status }
                 : task);
         case SAVE_TASK:
-            let updatedTask = action.task;
+            const updatedTask = action.task;
             if (!updatedTask.id) {
-                updatedTask = { ...action.task, id: state.length + 1 };
+                const newTask = { ...action.task, id: state.length + 1 };
                 return [
-                    updatedTask,
+                    newTask,
                     ...state
                 ];
             }
@@ -28,13 +28,13 @@ export function taskList(state = [], action) {
 
 export function edit(state = null, action) {
     switch (action.type) {
-        case ADD_TASK:
+        case EDIT_NEW_TASK:
             return { status: TASK_STATUS.NEW };
         case EDIT_TASK:
             return action.task;
-        case UPDATE_TASK:
+        case UPDATE_EDITED_TASK:
             return { ...state, ...action.props };
-        case CANCEL_EDIT:
+        case DISMISS_EDIT:
             return null;
         default:
             return state;

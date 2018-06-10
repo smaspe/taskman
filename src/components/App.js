@@ -5,7 +5,7 @@ import EditTask from './EditTask';
 import { AppBar, Toolbar, Typography } from 'material-ui';
 import withStyles from 'material-ui/styles/withStyles';
 import Paper from 'material-ui/Paper/Paper';
-import AddTask from './AddTask';
+import EditNewTaskButton from './EditNewTaskButton';
 
 
 
@@ -33,7 +33,7 @@ const App = ({ classes }) => (
             <div className="content">
                 <Paper className={classes.paper + " innerContent"}>
                     <TaskList />
-                    <AddTask />
+                    <EditNewTaskButton />
                 </Paper>
             </div>
         </div>
