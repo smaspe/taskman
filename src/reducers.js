@@ -9,10 +9,9 @@ export function taskList(state = [], action) {
                 : task);
         case SAVE_TASK:
             const updatedTask = action.task;
-            if (!updatedTask.id) {
-                const newTask = { ...action.task, id: state.length + 1 };
+            if (!state.find(task => task.id === updatedTask.id)) {
                 return [
-                    newTask,
+                    updatedTask,
                     ...state
                 ];
             }
@@ -29,7 +28,7 @@ export function taskList(state = [], action) {
 export function edit(state = null, action) {
     switch (action.type) {
         case EDIT_NEW_TASK:
-            return { status: TASK_STATUS.NEW };
+            return { status: TASK_STATUS.NEW, id: uuid() };
         case EDIT_TASK:
             return action.task;
         case UPDATE_EDITED_TASK:
