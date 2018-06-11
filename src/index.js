@@ -4,18 +4,30 @@ import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import createSagaMiddleware from 'redux-saga';
 import moment from 'moment';
 import * as reducers from './reducers';
+import { syncTaskSaga, loadTasksSaga } from './sagas'
+import { loadTasks } from './actions';
 
 let state = JSON.parse(localStorage.getItem('state'),
+    // Special parse for dates
     (key, value) => (key === 'snoozeUntil' && value) ? moment(value, moment.ISO8601, true) : value)
-    || { taskList: [], filter: 'all' };
+    || { taskList: [], filter: {} };
 
-let store = createStore(combineReducers(reducers), state);
+const sagaMiddleware = createSagaMiddleware();
+let store = createStore(combineReducers(reducers), state, applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(syncTaskSaga);
+sagaMiddleware.run(loadTasksSaga);
 
 store.subscribe(() => {
-    localStorage.setItem('state', JSON.stringify(store.getState()));
+    const state = {...store.getState()};
+    // Don't store task list for now, rely solely on dynamo db
+    // TODO Store locally at least un-synced tasks, and merge during loading
+    delete state.taskList;
+    localStorage.setItem('state', JSON.stringify(state));
 });
 
 ReactDOM.render(
@@ -23,3 +35,5 @@ ReactDOM.render(
         <App />
     </Provider>, document.getElementById('root'));
 registerServiceWorker();
+
+store.dispatch(loadTasks());

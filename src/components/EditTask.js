@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { dismissEdit, saveTask, updateEditedTask } from '../actions';
+import { dismissEdit, saveTask, updateEditedTask, syncTask } from '../actions';
 import Dialog from 'material-ui/Dialog/Dialog';
 import DialogTitle from 'material-ui/Dialog/DialogTitle';
 import DialogContent from 'material-ui/Dialog/DialogContent';
@@ -52,7 +52,8 @@ const mapDispatchToProps = dispatch => {
         update: props => dispatch(updateEditedTask(props)),
         save: task => {
             dispatch(saveTask(task));
-            dispatch(dismissEdit())
+            dispatch(syncTask(task));
+            dispatch(dismissEdit());
         },
         cancel: () => dispatch(dismissEdit())
     };
