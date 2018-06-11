@@ -32,6 +32,9 @@ const App = ({ classes }) => (
             </div>
             <div className="content">
                 <Paper className={classes.paper + " innerContent"}>
+                    <Typography type="headline" color="inherit" className={classes.paper}>
+                        Your Tasks
+                    </Typography>
                     <TaskList />
                     <EditNewTaskButton />
                 </Paper>
