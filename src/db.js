@@ -1,3 +1,4 @@
+import moment from 'moment';
 import AWS from 'aws-sdk';
 AWS.config.update({
     // TODO read about how to not give the credentials to the browser
@@ -12,9 +13,10 @@ const TASKMAN_TABLE = 'taskman_tasks';
 const ddb = new AWS.DynamoDB({ apiVersion: '2012-10-08' });
 
 function syncTask(task, callback) {
+    const item = task.snoozeUntil ? { ...task, snoozeUntil: task.snoozeUntil.toISOString() } : task;
     const params = {
         TableName: TASKMAN_TABLE,
-        Item: AWS.DynamoDB.Converter.marshall(task)
+        Item: AWS.DynamoDB.Converter.marshall(item)
     };
     ddb.putItem(params, callback);
 }
@@ -30,8 +32,11 @@ function loadTasks(callback) {
         if (err) {
             callback(err, data);
         } else {
-            // TODO look at parsing the dates from the snooze
-            const tasks = data.Items.map(AWS.DynamoDB.Converter.unmarshall);
+            const tasks = data.Items.map(AWS.DynamoDB.Converter.unmarshall)
+                .map(task => task.snoozeUntil
+                    // Special parse for dates
+                    ? { ...task, snoozeUntil: moment(task.snoozeUntil, moment.ISO8601, true) }
+                    : task);
             callback(err, tasks);
         }
     });

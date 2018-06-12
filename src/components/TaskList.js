@@ -7,7 +7,7 @@ import { TASK_STATUS, setTaskStatus, moveByIndices, editTask } from '../actions'
 import moment from 'moment';
 
 const TaskList = SortableContainer(({ taskList, setTaskStatus, editTask }) => {
-    let tasks = taskList.map((task, index) =>
+    const tasks = taskList.map((task, index) =>
         <Task task={task}
             setTaskStatus={status => setTaskStatus(task.id)(status)}
             editTask={() => editTask(task)}
