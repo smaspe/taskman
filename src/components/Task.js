@@ -1,10 +1,13 @@
 import React from 'react';
 
-import Checkbox from 'material-ui/Checkbox';
-import { SortableElement, SortableHandle } from 'react-sortable-hoc';
 import { TASK_STATUS } from '../actions';
-import ReorderIcon from 'material-ui-icons/Reorder';
-import { ListItem, ListItemText, ListItemSecondaryAction, ListItemIcon } from 'material-ui/List';
+
+import { SortableElement, SortableHandle } from 'react-sortable-hoc';
+
+import ReorderIcon from '@material-ui/icons/Reorder';
+
+import { Checkbox, ListItem, ListItemText, ListItemSecondaryAction, ListItemIcon } from '@material-ui/core';
+
 import moment from 'moment';
 
 const DragHandle = SortableHandle(() => <ListItemIcon><ReorderIcon /></ListItemIcon>);

@@ -2,10 +2,10 @@ import React from 'react';
 import TaskList from './TaskList';
 import Filters from './Filters';
 import EditTask from './EditTask';
-import { AppBar, Toolbar, Typography } from 'material-ui';
-import withStyles from 'material-ui/styles/withStyles';
-import Paper from 'material-ui/Paper/Paper';
 import EditNewTaskButton from './EditNewTaskButton';
+
+import { AppBar, Paper, Toolbar, Typography } from '@material-ui/core';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 
 

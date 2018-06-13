@@ -1,6 +1,6 @@
 import React from 'react';
 import { SortableContainer } from 'react-sortable-hoc';
-import List from 'material-ui/List/List';
+import List from '@material-ui/core/List';
 import { connect } from 'react-redux';
 import Task from './Task';
 import { TASK_STATUS, setTaskStatus, moveByIndices, editTask } from '../actions';

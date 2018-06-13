@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { editNewTask } from '../actions';
-import Button from 'material-ui/Button/Button';
-import AddIcon from 'material-ui-icons/Add';
-import { withStyles } from 'material-ui/styles';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import { withStyles } from '@material-ui/core/styles';
 
 const EditNewTaskButton = ({ classes, dispatch }) => {
     return (
-            <Button fab className={classes.button} color="primary" onClick={e => dispatch(editNewTask())}>
+            <Button variant='fab' className={classes.button} color="primary" onClick={e => dispatch(editNewTask())}>
                 <AddIcon />
             </Button>
     );

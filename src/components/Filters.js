@@ -1,13 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setFilter } from '../actions';
-import List from 'material-ui/List/List';
-import ListItem from 'material-ui/List/ListItem';
-import ListItemText from 'material-ui/List/ListItemText';
-import ListItemSecondaryAction from 'material-ui/List/ListItemSecondaryAction';
-import ListSubheader from 'material-ui/List/ListSubheader';
-import Switch from 'material-ui/Switch/Switch';
 
+import { List, ListItem, ListItemText, ListItemSecondaryAction, ListSubheader, Switch } from '@material-ui/core';
 
 const Filters = ({ filter, setFilterCompleted, setFilterSnoozed }) =>
 

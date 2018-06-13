@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { dismissEdit, saveTask, updateEditedTask, syncTask } from '../actions';
-import Dialog from 'material-ui/Dialog/Dialog';
-import DialogTitle from 'material-ui/Dialog/DialogTitle';
-import DialogContent from 'material-ui/Dialog/DialogContent';
-import DialogActions from 'material-ui/Dialog/DialogActions';
-import TextField from 'material-ui/TextField/TextField';
-import Button from 'material-ui/Button/Button';
-import { DatePicker } from 'material-ui-pickers'
+
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button} from '@material-ui/core';
+
+import DatePicker from 'material-ui-pickers/DatePicker';
+import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 
 const EditTask = ({ task, update, save, cancel }) => {
     if (!task) {
@@ -20,7 +19,10 @@ const EditTask = ({ task, update, save, cancel }) => {
                 <DialogTitle>{task.id ? "Edit Task" : "New Task"}</DialogTitle>
                 <DialogContent>
                     Snoozed until:
-                    <DatePicker value={task.snoozeUntil ? task.snoozeUntil : null} invalidLabel="Not snoozed" disablePast={true} onChange={date => update({ snoozeUntil: date })} />
+
+                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DatePicker value={task.snoozeUntil ? task.snoozeUntil : null} invalidLabel="Not snoozed" disablePast={true} onChange={date => update({ snoozeUntil: date })} />
+                    </MuiPickersUtilsProvider>
                     <TextField
                         label="Title"
                         autoFocus
