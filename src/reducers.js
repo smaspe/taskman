@@ -18,20 +18,9 @@ export function taskList(state = [], action) {
                     ...state
                 ];
             }
-            const newState = state.map(task => (task.id === updatedTask.id)
+            return state.map(task => (task.id === updatedTask.id)
                 ? updatedTask
                 : task);
-
-            newState.sort((a, b) => {
-                if (a.order > b.order) {
-                    return 1;
-                }
-                if (a.order < b.order) {
-                    return -1;
-                }
-                return 0;
-            });
-            return newState;
         case TASKS_LOADED:
             return action.tasks;
         default:
