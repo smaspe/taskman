@@ -37,6 +37,15 @@ function loadTasks(callback) {
                     // Special parse for dates
                     ? { ...task, snoozeUntil: moment(task.snoozeUntil, moment.ISO8601, true) }
                     : task);
+            tasks.sort((a, b) => {
+                if (a.order > b.order) {
+                    return 1;
+                }
+                if (a.order < b.order) {
+                    return -1;
+                }
+                return 0;
+            });
             callback(err, tasks);
         }
     });

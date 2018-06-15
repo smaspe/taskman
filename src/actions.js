@@ -17,7 +17,6 @@ export const DISMISS_EDIT = 'DISMISS_EDIT';
 export const SET_TASK_STATUS = 'SET_TASK_STATUS';
 export const SAVE_TASK = 'SAVE_TASK';
 export const MOVE_BY_INDICES = 'MOVE_BY_INDICES';
-export const SYNC_TASK = 'SYNC_TASK';
 export const TASK_SYNCED = 'TASK_SYNCED';
 
 export const LOAD_TASKS = 'LOAD_TASKS';
@@ -42,10 +41,6 @@ export function updateEditedTask(props) {
 }
 export function saveTask(task) {
     return { type: SAVE_TASK, task };
-}
-
-export function syncTask(task) {
-    return { type: SYNC_TASK, task };
 }
 
 export function loadTasks() {

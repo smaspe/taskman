@@ -1,10 +1,12 @@
-import { cps, takeEvery, takeLatest, put } from 'redux-saga/effects'
+import { cps, takeEvery, takeLatest, put, select } from 'redux-saga/effects'
 import { Api } from './db'
-import { SYNC_TASK, LOAD_TASKS, tasksLoaded } from './actions';
+import { LOAD_TASKS, tasksLoaded, SAVE_TASK, MOVE_BY_INDICES, SET_TASK_STATUS } from './actions';
 
 function* syncTask(action) {
     try {
-        const result = yield cps(Api.syncTask, action.task);
+        const tasks = yield select(store => store.taskList);
+        const task = action.hasOwnProperty('to') ? tasks[action.to] : tasks.find(t => t.id === action.task.id);
+        const result = yield cps(Api.syncTask, task);
         console.log('sync task result ' + result.toString());
         // TODO mark task as synced?
     } catch (e) {
@@ -13,7 +15,7 @@ function* syncTask(action) {
 }
 
 export function* syncTaskSaga() {
-    yield takeEvery(SYNC_TASK, syncTask);
+    yield takeEvery([SAVE_TASK, MOVE_BY_INDICES, SET_TASK_STATUS], syncTask);
 }
 
 function* loadTasks(action) {
