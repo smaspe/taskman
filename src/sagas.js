@@ -1,11 +1,13 @@
 import { cps, takeEvery, takeLatest, put, select } from 'redux-saga/effects'
 import { Api } from './db'
-import { LOAD_TASKS, tasksLoaded, SAVE_TASK, MOVE_BY_INDICES, SET_TASK_STATUS } from './actions';
+import { LOAD_TASKS, tasksLoaded, SAVE_TASK, SET_TASK_STATUS } from './actions';
 
 function* syncTask(action) {
     try {
+        console.log(action);
         const tasks = yield select(store => store.taskList);
-        const task = action.hasOwnProperty('to') ? tasks[action.to] : tasks.find(t => t.id === action.task.id);
+        // TODO find a way not to have to look into the store. Make sure the task in the action is self-contained
+        const task = tasks.find(t => t.id === action.task.id);
         const result = yield cps(Api.syncTask, task);
         console.log('sync task result ' + result.toString());
         // TODO mark task as synced?
@@ -15,7 +17,7 @@ function* syncTask(action) {
 }
 
 export function* syncTaskSaga() {
-    yield takeEvery([SAVE_TASK, MOVE_BY_INDICES, SET_TASK_STATUS], syncTask);
+    yield takeEvery([SAVE_TASK, SET_TASK_STATUS], syncTask);
 }
 
 function* loadTasks(action) {

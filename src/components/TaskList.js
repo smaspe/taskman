@@ -1,10 +1,12 @@
 import React from 'react';
-import { SortableContainer } from 'react-sortable-hoc';
-import List from '@material-ui/core/List';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { SortableContainer, arrayMove } from 'react-sortable-hoc';
+import List from '@material-ui/core/List';
 import Task from './Task';
-import { TASK_STATUS, setTaskStatus, moveByIndices, editTask } from '../actions';
+import { TASK_STATUS, setTaskStatus, editTask, saveTask } from '../actions';
 import moment from 'moment';
+import { insert } from '../tools/orderIndex';
 
 const TaskList = SortableContainer(({ taskList, setTaskStatus, editTask }) => {
     const tasks = taskList.map((task, index) =>
@@ -39,13 +41,30 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         setTaskStatus: id => status => dispatch(setTaskStatus(id, status)),
         editTask: task => dispatch(editTask(task)),
-        // Called by SortableContainer directly
-        onSortEnd: ({ oldIndex, newIndex }) => dispatch(moveByIndices(oldIndex, newIndex))
+        saveTask: bindActionCreators(saveTask, dispatch)
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskList);
+const mergeProps = (stateProps, dispatchProps) => ({
+    ...stateProps,
+    ...dispatchProps,
+    // Called by SortableContainer directly
+    onSortEnd: ({ oldIndex, newIndex }) => {
+        if (oldIndex === newIndex) {
+            return;
+        }
+        // Find the new index of the task, update the task, dispatch the save action
+        const newList = arrayMove(stateProps.taskList, oldIndex, newIndex);
+        const before = (newIndex > 0) ? newList[newIndex - 1].order : null;
+        const after = (newIndex < (newList.length - 1)) ? newList[newIndex + 1].order : null;
+        newList[newIndex].order = insert(before, after);
+
+        dispatchProps.saveTask(newList[newIndex]);
+    },
+})
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(TaskList);

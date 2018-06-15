@@ -16,7 +16,6 @@ export const DISMISS_EDIT = 'DISMISS_EDIT';
 
 export const SET_TASK_STATUS = 'SET_TASK_STATUS';
 export const SAVE_TASK = 'SAVE_TASK';
-export const MOVE_BY_INDICES = 'MOVE_BY_INDICES';
 export const TASK_SYNCED = 'TASK_SYNCED';
 
 export const LOAD_TASKS = 'LOAD_TASKS';
@@ -57,8 +56,4 @@ export function dismissEdit() {
 
 export function setFilter(filter) {
     return { type: SET_FILTER, filter };
-}
-
-export function moveByIndices(from, to) {
-    return { type: MOVE_BY_INDICES, from, to };
 }

@@ -1,7 +1,6 @@
-import { EDIT_NEW_TASK, SET_TASK_STATUS, TASK_STATUS, SET_FILTER, MOVE_BY_INDICES, EDIT_TASK, DISMISS_EDIT, SAVE_TASK, UPDATE_EDITED_TASK, SYNC_STATUS, TASKS_LOADED } from "./actions";
+import { EDIT_NEW_TASK, SET_TASK_STATUS, TASK_STATUS, SET_FILTER, EDIT_TASK, DISMISS_EDIT, SAVE_TASK, UPDATE_EDITED_TASK, SYNC_STATUS, TASKS_LOADED } from "./actions";
 import uuid from 'node-uuid';
 import { insert } from "./tools/orderIndex";
-import { arrayMove } from "react-sortable-hoc";
 
 
 export function taskList(state = [], action) {
@@ -19,17 +18,19 @@ export function taskList(state = [], action) {
                     ...state
                 ];
             }
-            return state.map(task => (task.id === updatedTask.id)
+            const newState = state.map(task => (task.id === updatedTask.id)
                 ? updatedTask
                 : task);
-        case MOVE_BY_INDICES:
-            if (action.to === action.from) {
-                return state;
-            }
-            const newState = arrayMove(state, action.from, action.to);
-            const before = (action.to > 0) ? newState[action.to - 1].order : null;
-            const after = (action.to < (newState.length - 1)) ? newState[action.to + 1].order : null;
-            newState[action.to].order = insert(before, after);
+
+            newState.sort((a, b) => {
+                if (a.order > b.order) {
+                    return 1;
+                }
+                if (a.order < b.order) {
+                    return -1;
+                }
+                return 0;
+            });
             return newState;
         case TASKS_LOADED:
             return action.tasks;
