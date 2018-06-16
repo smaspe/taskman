@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { SortableContainer, arrayMove } from 'react-sortable-hoc';
 import List from '@material-ui/core/List';
 import Task from './Task';
-import { TASK_STATUS, setTaskStatus, editTask, saveTask } from '../actions';
+import { setTaskStatus, editTask, saveTask, TaskStatus } from '../actions';
 import moment from 'moment';
 import { insert } from '../tools/orderIndex';
 
@@ -35,7 +35,7 @@ const mapStateToProps = state => {
     return {
         taskList: state.taskList.filter(task => {
             if (!state.filter.completed) {
-                if (task.status === TASK_STATUS.COMPLETED) {
+                if (task.status === TaskStatus.COMPLETED) {
                     return false;
                 }
             }

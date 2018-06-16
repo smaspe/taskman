@@ -1,6 +1,6 @@
 import { cps, takeEvery, takeLatest, put, select } from 'redux-saga/effects'
 import { Api } from './db'
-import { LOAD_TASKS, tasksLoaded, SAVE_TASK, SET_TASK_STATUS } from './actions';
+import { ActionTypes, tasksLoaded } from './actions';
 
 function* syncTask(action) {
     try {
@@ -17,7 +17,7 @@ function* syncTask(action) {
 }
 
 export function* syncTaskSaga() {
-    yield takeEvery([SAVE_TASK, SET_TASK_STATUS], syncTask);
+    yield takeEvery([ActionTypes.SAVE_TASK, ActionTypes.SET_TASK_STATUS], syncTask);
 }
 
 function* loadTasks(action) {
@@ -30,5 +30,5 @@ function* loadTasks(action) {
 }
 
 export function* loadTasksSaga() {
-    yield takeLatest(LOAD_TASKS, loadTasks);
+    yield takeLatest(ActionTypes.LOAD_TASKS, loadTasks);
 }

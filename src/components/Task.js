@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TASK_STATUS } from '../actions';
+import { TaskStatus } from '../actions';
 
 import { SortableElement, SortableHandle } from 'react-sortable-hoc';
 
@@ -23,11 +23,11 @@ const Task = SortableElement(({ task, setTaskStatus, editTask }) =>
                     : ""
             } />
         <ListItemSecondaryAction>
-            <Checkbox checked={task.status === TASK_STATUS.COMPLETED} onChange={e => {
+            <Checkbox checked={task.status === TaskStatus.COMPLETED} onChange={e => {
                 if (e.target.checked) {
-                    setTaskStatus(TASK_STATUS.COMPLETED);
+                    setTaskStatus(TaskStatus.COMPLETED);
                 } else {
-                    setTaskStatus(TASK_STATUS.NEW);
+                    setTaskStatus(TaskStatus.NEW);
                 }
             }} />
         </ListItemSecondaryAction>
