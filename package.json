@@ -7,6 +7,7 @@
     "@material-ui/icons": "^1.1.0",
     "aws-sdk": "^2.256.1",
     "material-ui-pickers": "^1.0.0-rc.9",
+    "mocha": "^5.2.0",
     "moment": "^2.22.2",
     "node-uuid": "^1.4.8",
     "react": "^16.4.0",
