@@ -1,10 +1,10 @@
 import moment from 'moment';
 import AWS from 'aws-sdk';
-AWS.config.update({
-    // TODO read about how to not give the credentials to the browser
-    accessKeyId: '<access key>',
-    secretAccessKey: '<secret>',
-    region: 'us-east-1'
+
+// Initialize the Amazon Cognito credentials provider (unauth customers)
+AWS.config.region = 'us-east-1'; // Region
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'us-east-1:6b1c9a14-8ebb-405c-8c0c-7724487f9078',
 });
 
 const TASKMAN_TABLE = 'taskman_tasks';
@@ -25,13 +25,18 @@ function loadTasks(callback) {
 
     const params = {
         Select: 'ALL_ATTRIBUTES',
-        TableName: TASKMAN_TABLE
+        TableName: TASKMAN_TABLE,
+        KeyConditionExpression: "user_id = :id",
+        ExpressionAttributeValues: {
+            ":id": { 'S': AWS.config.credentials.identityId }
+        }
     };
 
-    ddb.scan(params, (err, data) => {
+    ddb.query(params, (err, data) => {
         if (err) {
             callback(err, data);
         } else {
+            // TODO index by task id?
             const tasks = data.Items.map(AWS.DynamoDB.Converter.unmarshall)
                 .map(task => task.snoozeUntil
                     // Special parse for dates

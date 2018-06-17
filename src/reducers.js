@@ -1,6 +1,7 @@
 import { ActionTypes, SyncStatus, TaskStatus } from "./actions";
 import uuid from 'node-uuid';
 import { insert } from "./tools/orderIndex";
+import AWS from 'aws-sdk';
 
 
 export function taskList(state = [], action) {
@@ -31,7 +32,8 @@ export function taskList(state = [], action) {
 export function edit(state = null, action) {
     switch (action.type) {
         case ActionTypes.EDIT_NEW_TASK:
-            return { status: TaskStatus.NEW, task_id: uuid() };
+        // TODO move the id outside of the reducer
+            return { status: TaskStatus.NEW, task_id: uuid(), user_id: AWS.config.credentials.identityId };
         case ActionTypes.EDIT_TASK:
             return action.task;
         case ActionTypes.UPDATE_EDITED_TASK:
