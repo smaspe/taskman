@@ -50,3 +50,13 @@ function loadTasks(callback) {
 export const Api = { syncTask, loadTasks };
 
 export const UserId = () => AWS.config.credentials.identityId;
+
+export const taskSort = (a, b) => {
+    if (a.order > b.order) {
+        return 1;
+    }
+    if (a.order < b.order) {
+        return -1;
+    }
+    return 0;
+};

@@ -22,16 +22,6 @@ const TaskList = SortableContainer(({ taskList, setTaskStatus, editTask }) => {
     );
 });
 
-const byOrder = (a, b) => {
-    if (a.order > b.order) {
-        return 1;
-    }
-    if (a.order < b.order) {
-        return -1;
-    }
-    return 0;
-}
-
 const mapStateToProps = state => {
     return {
         taskList: Object.values(state.tasks).filter(task => {
@@ -46,7 +36,7 @@ const mapStateToProps = state => {
                 }
             }
             return true;
-        }).sort(byOrder),
+        }).sort(taskSort),
         // Used by SortableContainer
         useDragHandle: true
     }
