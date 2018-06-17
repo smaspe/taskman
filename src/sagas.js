@@ -7,7 +7,7 @@ function* syncTask(action) {
         console.log(action);
         const tasks = yield select(store => store.taskList);
         // TODO find a way not to have to look into the store. Make sure the task in the action is self-contained
-        const task = tasks.find(t => t.id === action.task.id);
+        const task = tasks.find(t => t.task_id === action.task.task_id);
         const result = yield cps(Api.syncTask, task);
         console.log('sync task result ' + result.toString());
         // TODO mark task as synced?

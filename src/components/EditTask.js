@@ -16,7 +16,7 @@ const EditTask = ({ task, update, save, cancel }) => {
         <div>
             <Dialog open={true}
                 onClose={cancel}>
-                <DialogTitle>{task.id ? "Edit Task" : "New Task"}</DialogTitle>
+                <DialogTitle>{task.order ? "Edit Task" : "New Task"}</DialogTitle>
                 <DialogContent>
                     Snoozed until:
 

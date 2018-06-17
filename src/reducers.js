@@ -6,19 +6,19 @@ import { insert } from "./tools/orderIndex";
 export function taskList(state = [], action) {
     switch (action.type) {
         case ActionTypes.SET_TASK_STATUS:
-            return state.map(task => (task.id === action.id)
+            return state.map(task => (task.task_id === action.task_id)
                 ? { ...task, status: action.status }
                 : task);
         case ActionTypes.SAVE_TASK:
             const updatedTask = { ...action.task, sync_state: SyncStatus.MODIFIED };
-            if (!state.find(task => task.id === updatedTask.id)) {
+            if (!state.find(task => task.task_id === updatedTask.task_id)) {
                 updatedTask.order = insert(null, state.length > 0 ? state[0].order : null);
                 return [
                     updatedTask,
                     ...state
                 ];
             }
-            return state.map(task => (task.id === updatedTask.id)
+            return state.map(task => (task.task_id === updatedTask.task_id)
                 ? updatedTask
                 : task);
         case ActionTypes.TASKS_LOADED:
@@ -31,7 +31,7 @@ export function taskList(state = [], action) {
 export function edit(state = null, action) {
     switch (action.type) {
         case ActionTypes.EDIT_NEW_TASK:
-            return { status: TaskStatus.NEW, id: uuid() };
+            return { status: TaskStatus.NEW, task_id: uuid() };
         case ActionTypes.EDIT_TASK:
             return action.task;
         case ActionTypes.UPDATE_EDITED_TASK:

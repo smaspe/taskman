@@ -11,9 +11,9 @@ import { insert } from '../tools/orderIndex';
 const TaskList = SortableContainer(({ taskList, setTaskStatus, editTask }) => {
     const tasks = taskList.map((task, index) =>
         <Task task={task}
-            setTaskStatus={status => setTaskStatus(task.id)(status)}
+            setTaskStatus={status => setTaskStatus(task.task_id)(status)}
             editTask={() => editTask(task)}
-            key={task.id} index={index} />
+            key={task.task_id} index={index} />
     );
     return (
         <List style={{ padding: 0 }}>{tasks}</List>
@@ -53,7 +53,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setTaskStatus: id => status => dispatch(setTaskStatus(id, status)),
+        setTaskStatus: task_id => status => dispatch(setTaskStatus(task_id, status)),
         editTask: task => dispatch(editTask(task)),
         saveTask: bindActionCreators(saveTask, dispatch)
     }
