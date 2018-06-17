@@ -10,7 +10,6 @@ export const SyncStatus = {
 }
 
 export const ActionTypes = {
-    EDIT_NEW_TASK: 'EDIT_NEW_TASK',
     EDIT_TASK: 'EDIT_TASK',
     UPDATE_EDITED_TASK: 'UPDATE_EDITED_TASK',
     DISMISS_EDIT: 'DISMISS_EDIT',
@@ -25,7 +24,15 @@ export const ActionTypes = {
 }
 
 export function editNewTask() {
-    return { type: ActionTypes.EDIT_NEW_TASK };
+    return {
+        type: ActionTypes.EDIT_TASK,
+        task: {
+            status: TaskStatus.NEW,
+            task_id: uuid(),
+            // TODO move the id outside of the actions
+            user_id: AWS.config.credentials.identityId
+        }
+    };
 }
 
 export function editTask(task) {
