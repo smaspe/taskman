@@ -1,3 +1,6 @@
+import uuid from 'node-uuid';
+import { UserId } from './db';
+
 export const TaskStatus = {
     NEW: 0,
     COMPLETED: 100,
@@ -29,8 +32,7 @@ export function editNewTask() {
         task: {
             status: TaskStatus.NEW,
             task_id: uuid(),
-            // TODO move the id outside of the actions
-            user_id: AWS.config.credentials.identityId
+            user_id: UserId()
         }
     };
 }
@@ -42,8 +44,9 @@ export function editTask(task) {
 export function updateEditedTask(props) {
     return { type: ActionTypes.UPDATE_EDITED_TASK, props };
 }
+
 export function saveTask(task) {
-    return { type: ActionTypes.SAVE_TASK, task };
+    return { type: ActionTypes.SAVE_TASK, task: { ...task, sync_state: SyncStatus.MODIFIED } };
 }
 
 export function loadTasks() {

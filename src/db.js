@@ -28,7 +28,7 @@ function loadTasks(callback) {
         TableName: TASKMAN_TABLE,
         KeyConditionExpression: "user_id = :id",
         ExpressionAttributeValues: {
-            ":id": { 'S': AWS.config.credentials.identityId }
+            ":id": { 'S': UserId() }
         }
     };
 
@@ -48,3 +48,5 @@ function loadTasks(callback) {
 }
 
 export const Api = { syncTask, loadTasks };
+
+export const UserId = () => AWS.config.credentials.identityId;
