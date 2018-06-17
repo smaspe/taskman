@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { dismissEdit, saveTask, updateEditedTask } from '../actions';
+import { saveTask, setEditTask } from '../actions';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@material-ui/core';
 
@@ -23,13 +23,14 @@ const EditTask = ({ task, order, update, save, cancel }) => {
                     Snoozed until:
 
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DatePicker value={task.snoozeUntil ? task.snoozeUntil : null} invalidLabel="Not snoozed" disablePast={true} onChange={date => update({ snoozeUntil: date })} />
+                        <DatePicker value={task.snoozeUntil ? task.snoozeUntil : null} invalidLabel="Not snoozed" disablePast={true}
+                            onChange={date => update({ ...task, snoozeUntil: date })} />
                     </MuiPickersUtilsProvider>
                     <TextField
                         label="Title"
                         autoFocus
                         fullWidth
-                        onChange={e => update({ title: e.target.value })}
+                        onChange={e => update({ ...task, title: e.target.value })}
                         defaultValue={task.title}
                     />
                 </DialogContent>
@@ -44,7 +45,7 @@ const EditTask = ({ task, order, update, save, cancel }) => {
     );
 };
 
-const firstOrder = function(tasks) {
+const firstOrder = function (tasks) {
     const taskList = [...Object.values(tasks)];
     taskList.sort(taskSort);
     return taskList.length > 0 ? taskList[0].order : null;
@@ -61,12 +62,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        update: props => dispatch(updateEditedTask(props)),
+        update: task => dispatch(setEditTask(task)),
         save: task => {
             dispatch(saveTask(task));
-            dispatch(dismissEdit());
+            dispatch(setEditTask(null));
         },
-        cancel: () => dispatch(dismissEdit())
+        cancel: () => dispatch(setEditTask(null))
     };
 }
 

@@ -4,7 +4,7 @@
  * @param {String} before 
  * @param {String} after 
  */
-// TODO doesn't work between 05 and 15 -> look at the rest of whatever before still has to avoid re-using it
+// TODO Unit tests
 // Test cases: 
 // - 005, 010
 // - 19, 20

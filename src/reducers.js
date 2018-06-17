@@ -13,12 +13,8 @@ export function tasks(state = {}, action) {
 
 export function edit(state = null, action) {
     switch (action.type) {
-        case ActionTypes.EDIT_TASK:
+        case ActionTypes.SET_EDIT_TASK:
             return action.task;
-        case ActionTypes.UPDATE_EDITED_TASK:
-            return { ...state, ...action.props };
-        case ActionTypes.DISMISS_EDIT:
-            return null;
         default:
             return state;
     }

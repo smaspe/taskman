@@ -13,9 +13,7 @@ export const SyncStatus = {
 }
 
 export const ActionTypes = {
-    EDIT_TASK: 'EDIT_TASK',
-    UPDATE_EDITED_TASK: 'UPDATE_EDITED_TASK',
-    DISMISS_EDIT: 'DISMISS_EDIT',
+    SET_EDIT_TASK: 'SET_EDIT_TASK',
 
     SAVE_TASK: 'SAVE_TASK',
     TASK_SYNCED: 'TASK_SYNCED',
@@ -37,12 +35,8 @@ export function editNewTask() {
     };
 }
 
-export function editTask(task) {
-    return { type: ActionTypes.EDIT_TASK, task };
-}
-
-export function updateEditedTask(props) {
-    return { type: ActionTypes.UPDATE_EDITED_TASK, props };
+export function setEditTask(task) {
+    return { type: ActionTypes.SET_EDIT_TASK, task };
 }
 
 export function saveTask(task) {
@@ -55,10 +49,6 @@ export function loadTasks() {
 
 export function tasksLoaded(tasks) {
     return { type: ActionTypes.TASKS_LOADED, tasks };
-}
-
-export function dismissEdit() {
-    return { type: ActionTypes.DISMISS_EDIT };
 }
 
 export function setFilter(filter) {
