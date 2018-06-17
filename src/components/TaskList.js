@@ -7,6 +7,7 @@ import Task from './Task';
 import { editTask, saveTask, TaskStatus } from '../actions';
 import moment from 'moment';
 import { insert } from '../tools/orderIndex';
+import { taskSort } from '../db';
 
 const TaskList = SortableContainer(({ taskList, setTaskStatus, editTask }) => {
     const tasks = taskList.map((task, index) =>
@@ -33,7 +34,7 @@ const byOrder = (a, b) => {
 
 const mapStateToProps = state => {
     return {
-        taskList: state.taskList.filter(task => {
+        taskList: Object.values(state.tasks).filter(task => {
             if (!state.filter.completed) {
                 if (task.status === TaskStatus.COMPLETED) {
                     return false;

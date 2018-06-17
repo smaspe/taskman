@@ -10,7 +10,7 @@ import * as reducers from './reducers';
 import { syncTaskSaga, loadTasksSaga } from './sagas'
 import { loadTasks } from './actions';
 
-let state = JSON.parse(localStorage.getItem('state')) || { taskList: [], filter: {} };
+let state = JSON.parse(localStorage.getItem('state')) || { tasks: {}, filter: {} };
 
 const sagaMiddleware = createSagaMiddleware();
 let store = createStore(combineReducers(reducers), state, applyMiddleware(sagaMiddleware));
@@ -22,7 +22,7 @@ store.subscribe(() => {
     const state = { ...store.getState() };
     // Don't store task list for now, rely solely on dynamo db
     // TODO Store locally at least un-synced tasks, and merge during loading
-    delete state.taskList;
+    delete state.tasks;
     localStorage.setItem('state', JSON.stringify(state));
 });
 

@@ -36,12 +36,12 @@ function loadTasks(callback) {
         if (err) {
             callback(err, data);
         } else {
-            // TODO index by task id?
             const tasks = data.Items.map(AWS.DynamoDB.Converter.unmarshall)
                 .map(task => task.snoozeUntil
                     // Special parse for dates
                     ? { ...task, snoozeUntil: moment(task.snoozeUntil, moment.ISO8601, true) }
-                    : task);
+                    : task)
+                .reduce((obj, task) => ({ ...obj, [task.task_id]: task }), {});
             callback(err, tasks);
         }
     });

@@ -1,21 +1,9 @@
-import { ActionTypes, SyncStatus, TaskStatus } from "./actions";
-import { insert } from "./tools/orderIndex";
+import { ActionTypes } from "./actions";
 
-
-export function taskList(state = [], action) {
+export function tasks(state = {}, action) {
     switch (action.type) {
         case ActionTypes.SAVE_TASK:
-            const updatedTask = { ...action.task, sync_state: SyncStatus.MODIFIED };
-            if (!state.find(task => task.task_id === updatedTask.task_id)) {
-                updatedTask.order = insert(null, state.length > 0 ? state[0].order : null);
-                return [
-                    updatedTask,
-                    ...state
-                ];
-            }
-            return state.map(task => (task.task_id === updatedTask.task_id)
-                ? updatedTask
-                : task);
+            return { ...state, [action.task.task_id]: action.task };
         case ActionTypes.TASKS_LOADED:
             return action.tasks;
         default:
