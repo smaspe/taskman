@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { dismissEdit, saveTask, updateEditedTask } from '../actions';
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button} from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@material-ui/core';
 
 import DatePicker from 'material-ui-pickers/DatePicker';
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import { insert } from '../tools/orderIndex';
+import { taskSort } from '../db';
 
-const EditTask = ({ task, update, save, cancel }) => {
+const EditTask = ({ task, order, update, save, cancel }) => {
     if (!task) {
         return null;
     }
@@ -33,7 +35,7 @@ const EditTask = ({ task, update, save, cancel }) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={cancel}>Cancel</Button>
-                    <Button onClick={e => save(task)} disabled={!task.title}>
+                    <Button onClick={e => save({ ...task, order })} disabled={!task.title}>
                         Save
                     </Button>
                 </DialogActions>
@@ -42,10 +44,18 @@ const EditTask = ({ task, update, save, cancel }) => {
     );
 };
 
+const firstOrder = function(tasks) {
+    const taskList = [...Object.values(tasks)];
+    taskList.sort(taskSort);
+    return taskList.length > 0 ? taskList[0].order : null;
+}
+
 
 const mapStateToProps = state => {
+    const order = (state.edit && state.edit.order) || insert(null, firstOrder(state.tasks));
     return {
-        task: state.edit
+        task: state.edit,
+        order
     };
 };
 
