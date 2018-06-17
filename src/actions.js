@@ -15,7 +15,6 @@ export const ActionTypes = {
     UPDATE_EDITED_TASK: 'UPDATE_EDITED_TASK',
     DISMISS_EDIT: 'DISMISS_EDIT',
 
-    SET_TASK_STATUS: 'SET_TASK_STATUS',
     SAVE_TASK: 'SAVE_TASK',
     TASK_SYNCED: 'TASK_SYNCED',
 
@@ -27,10 +26,6 @@ export const ActionTypes = {
 
 export function editNewTask() {
     return { type: ActionTypes.EDIT_NEW_TASK };
-}
-
-export function setTaskStatus(id, status) {
-    return { type: ActionTypes.SET_TASK_STATUS, id, status };
 }
 
 export function editTask(task) {

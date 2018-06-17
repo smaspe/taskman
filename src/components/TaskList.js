@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import { SortableContainer, arrayMove } from 'react-sortable-hoc';
 import List from '@material-ui/core/List';
 import Task from './Task';
-import { setTaskStatus, editTask, saveTask, TaskStatus } from '../actions';
+import { editTask, saveTask, TaskStatus } from '../actions';
 import moment from 'moment';
 import { insert } from '../tools/orderIndex';
 
 const TaskList = SortableContainer(({ taskList, setTaskStatus, editTask }) => {
     const tasks = taskList.map((task, index) =>
         <Task task={task}
-            setTaskStatus={status => setTaskStatus(task.task_id)(status)}
+            setTaskStatus={status => setTaskStatus(task, status)}
             editTask={() => editTask(task)}
             key={task.task_id} index={index} />
     );
@@ -53,7 +53,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setTaskStatus: task_id => status => dispatch(setTaskStatus(task_id, status)),
+        setTaskStatus: (task, status) => dispatch(saveTask({...task, status})),
         editTask: task => dispatch(editTask(task)),
         saveTask: bindActionCreators(saveTask, dispatch)
     }

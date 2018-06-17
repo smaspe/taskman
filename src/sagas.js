@@ -17,7 +17,7 @@ function* syncTask(action) {
 }
 
 export function* syncTaskSaga() {
-    yield takeEvery([ActionTypes.SAVE_TASK, ActionTypes.SET_TASK_STATUS], syncTask);
+    yield takeEvery(ActionTypes.SAVE_TASK, syncTask);
 }
 
 function* loadTasks(action) {

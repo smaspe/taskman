@@ -6,10 +6,6 @@ import AWS from 'aws-sdk';
 
 export function taskList(state = [], action) {
     switch (action.type) {
-        case ActionTypes.SET_TASK_STATUS:
-            return state.map(task => (task.task_id === action.task_id)
-                ? { ...task, status: action.status }
-                : task);
         case ActionTypes.SAVE_TASK:
             const updatedTask = { ...action.task, sync_state: SyncStatus.MODIFIED };
             if (!state.find(task => task.task_id === updatedTask.task_id)) {
