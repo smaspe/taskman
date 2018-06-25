@@ -7,11 +7,21 @@ import { SortableElement } from 'react-sortable-hoc';
 import moment from 'moment';
 
 
+const niceFormatter = function(now) {
+    if (this.year() > now.year()) {
+        return 'dddd MMM Do, YYYY';
+    }
+    if (this.month() > now.month()) {
+        return 'dddd, MMMM Do';
+    }
+    return 'dddd Do';
+}
+
 const Task = SortableElement(({ task, setTaskStatus, editTask }) => {
     const isCompleted = task.status === TaskStatus.COMPLETED;
     const snooze = task.snoozeUntil && task.snoozeUntil.isAfter(moment()) ?
         <span className="edited">
-            - Snoozed for about {task.snoozeUntil.toNow(true)}
+            &nbsp;&mdash; Snoozed until {task.snoozeUntil.calendar(null, { sameElse: niceFormatter }).split(' at')[0]}
         </span>
         : null;
     return (
