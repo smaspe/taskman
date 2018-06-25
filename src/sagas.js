@@ -4,11 +4,12 @@ import { ActionTypes, tasksLoaded } from './actions';
 
 function* syncTask(action) {
     try {
+        console.log(action);
         const result = yield cps(Api.syncTask, action.task);
         console.log('sync task result ' + result.toString());
         // TODO mark task as synced?
     } catch (e) {
-        console.log("Error", e);
+        console.log("Error in Sagas", e);
     }
 }
 

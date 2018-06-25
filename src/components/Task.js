@@ -2,36 +2,36 @@ import React from 'react';
 
 import { TaskStatus } from '../actions';
 
-import { SortableElement, SortableHandle } from 'react-sortable-hoc';
-
-import ReorderIcon from '@material-ui/icons/Reorder';
-
-import { Checkbox, ListItem, ListItemText, ListItemSecondaryAction, ListItemIcon } from '@material-ui/core';
+import { SortableElement } from 'react-sortable-hoc';
 
 import moment from 'moment';
 
-const DragHandle = SortableHandle(() => <ListItemIcon><ReorderIcon /></ListItemIcon>);
 
-const Task = SortableElement(({ task, setTaskStatus, editTask }) =>
-    <ListItem button onClick={editTask}>
-        <DragHandle />
-        <ListItemText
-            primary={task.title}
-            secondary={
-                task.snoozeUntil && task.snoozeUntil.isAfter(moment())
-                    ? ("Snoozed for about " + task.snoozeUntil.toNow(true))
-                    : ""
-            } />
-        <ListItemSecondaryAction>
-            <Checkbox checked={task.status === TaskStatus.COMPLETED} onChange={e => {
-                if (e.target.checked) {
-                    setTaskStatus(TaskStatus.COMPLETED);
-                } else {
-                    setTaskStatus(TaskStatus.NEW);
-                }
-            }} />
-        </ListItemSecondaryAction>
-    </ListItem>
-);
+const Task = SortableElement(({ task, setTaskStatus, editTask }) => {
+    const isCompleted = task.status === TaskStatus.COMPLETED;
+    const snooze = task.snoozeUntil && task.snoozeUntil.isAfter(moment()) ?
+        <span className="edited">
+            - Snoozed for about {task.snoozeUntil.toNow(true)}
+        </span>
+        : null;
+    return (
+        <div className="task_item row shadow" onClick={editTask}>
+            <span className={"task_title" + (isCompleted ? ' done' : '')}>
+                {task.title}
+                {!isCompleted ? snooze : null}
+            </span>
+            <i className={isCompleted ? 'far fa-check-square' : 'far fa-square'}
+                onClick={e => {
+                    e.stopPropagation();
+                    if (isCompleted) {
+                        setTaskStatus(TaskStatus.NEW);
+                    } else {
+                        setTaskStatus(TaskStatus.COMPLETED);
+                    }
+                }}>
+            </i>
+        </div>
+    )
+});
 
 export default Task;

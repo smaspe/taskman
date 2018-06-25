@@ -2,22 +2,29 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { SortableContainer, arrayMove } from 'react-sortable-hoc';
-import List from '@material-ui/core/List';
 import Task from './Task';
 import { setEditTask, saveTask, TaskStatus } from '../actions';
 import moment from 'moment';
 import { insert } from '../tools/orderIndex';
 import { taskSort } from '../db';
+import TaskListHeader from './TaskListHeader';
+import EditTask from './EditTask';
 
-const TaskList = SortableContainer(({ taskList, setTaskStatus, editTask }) => {
-    const tasks = taskList.map((task, index) =>
-        <Task task={task}
+const TaskList = SortableContainer(({ taskList, edit, setTaskStatus, editTask }) => {
+    const tasks = taskList.map((task, index) => {
+        if (edit && edit.task_id === task.task_id) {
+            return <EditTask task={edit} key={edit.task_id} index={index}/>;
+        }
+        return <Task task={task}
             setTaskStatus={status => setTaskStatus(task, status)}
             editTask={() => editTask(task)}
             key={task.task_id} index={index} />
-    );
+    });
     return (
-        <List style={{ padding: 0 }}>{tasks}</List>
+        <div className="task_list">
+            <TaskListHeader />
+            {tasks}
+        </div>
 
     );
 });
@@ -37,14 +44,17 @@ const mapStateToProps = state => {
             }
             return true;
         }).sort(taskSort),
+        edit: state.edit,
         // Used by SortableContainer
-        useDragHandle: true
+        useDragHandle: false,
+        pressDelay: 200
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setTaskStatus: (task, status) => dispatch(saveTask({...task, status})),
+        // TODO move those 2 to Task directly
+        setTaskStatus: (task, status) => dispatch(saveTask({ ...task, status })),
         editTask: task => dispatch(setEditTask(task)),
         saveTask: bindActionCreators(saveTask, dispatch)
     }

@@ -8,6 +8,7 @@
 // Test cases: 
 // - 005, 010
 // - 19, 20
+// TODO pad 1 extra 0 so there should never be the i === len-1 case?
 export function insert(before, after) {
     if (!before) {
         before = '0';

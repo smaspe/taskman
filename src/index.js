@@ -9,8 +9,11 @@ import createSagaMiddleware from 'redux-saga';
 import * as reducers from './reducers';
 import { syncTaskSaga, loadTasksSaga } from './sagas'
 import { loadTasks } from './actions';
+import moment from 'moment';
 
-let state = JSON.parse(localStorage.getItem('state')) || { tasks: {}, filter: {} };
+let state = JSON.parse(localStorage.getItem('state'),
+    (k, v) => (v && k === 'snoozeUntil') ? moment(v, moment.ISO8601, true) : v)
+    || { tasks: {}, filter: {} };
 
 const sagaMiddleware = createSagaMiddleware();
 let store = createStore(combineReducers(reducers), state, applyMiddleware(sagaMiddleware));
@@ -19,10 +22,9 @@ sagaMiddleware.run(syncTaskSaga);
 sagaMiddleware.run(loadTasksSaga);
 
 store.subscribe(() => {
-    const state = { ...store.getState() };
     // Don't store task list for now, rely solely on dynamo db
     // TODO Store locally at least un-synced tasks, and merge during loading
-    delete state.tasks;
+    const { tasks, ...state } = store.getState();
     localStorage.setItem('state', JSON.stringify(state));
 });
 

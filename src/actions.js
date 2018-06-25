@@ -15,6 +15,8 @@ export const SyncStatus = {
 export const ActionTypes = {
     SET_EDIT_TASK: 'SET_EDIT_TASK',
 
+    SET_NEW_TITLE: 'SET_NEW_TITLE',
+
     SAVE_TASK: 'SAVE_TASK',
     TASK_SYNCED: 'TASK_SYNCED',
 
@@ -24,15 +26,8 @@ export const ActionTypes = {
     SET_FILTER: 'SET_FILTER',
 }
 
-export function editNewTask() {
-    return {
-        type: ActionTypes.EDIT_TASK,
-        task: {
-            status: TaskStatus.NEW,
-            task_id: uuid(),
-            user_id: UserId()
-        }
-    };
+export function setNewTitle(title) {
+    return { type: ActionTypes.SET_NEW_TITLE, title};
 }
 
 export function setEditTask(task) {
@@ -40,6 +35,15 @@ export function setEditTask(task) {
 }
 
 export function saveTask(task) {
+    if (!task.task_id) {
+        task = {
+            ...task,
+            status: TaskStatus.NEW,
+            task_id: uuid(),
+            user_id: UserId()
+        }
+    }
+    // TODO emit the sync task modifed update as a separate action from the saga
     return { type: ActionTypes.SAVE_TASK, task: { ...task, sync_state: SyncStatus.MODIFIED } };
 }
 

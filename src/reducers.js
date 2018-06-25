@@ -11,6 +11,15 @@ export function tasks(state = {}, action) {
     }
 }
 
+export function new_title(state = "", action) {
+    switch (action.type) {
+        case ActionTypes.SET_NEW_TITLE:
+            return action.title;
+        default:
+            return state;
+    }
+}
+
 export function edit(state = null, action) {
     switch (action.type) {
         case ActionTypes.SET_EDIT_TASK:
