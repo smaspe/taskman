@@ -8,7 +8,7 @@ import { saveTask, setNewTitle } from '../actions';
 const NewTask = ({ order, title, task, update, save }) => (
     <div className="row shadow" style={{ marginBottom: '48px' }}>
         <input type="text" className="task_title" placeholder="Add a new Task" value={title} onChange={update}/>
-        <i className="add_task task_action fas fa-plus" onClick={e => save({ title, order })}></i>
+        <i className="add_task fas fa-plus" onClick={e => save({ title, order })}></i>
     </div>
 );
 

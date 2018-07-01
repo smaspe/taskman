@@ -14,8 +14,9 @@ const EditTask = SortableElement(({ order, update, save, cancel, task }) => {
     }
     // TODO define a disabled style for the cancel and save buttons
     // TODO add a cancel button for the date picker
-    const showDatePicker = () => {
-        document.getElementById('date_picker').style.display = 'block';
+    const toggleDatePicker = () => {
+        const element = document.getElementById('date_picker');
+        element.style.display = element.style.display === 'block' ? 'none' : 'block';
     };
     const hideDatePicker = () => {
         document.getElementById('date_picker').style.display = 'none';
@@ -25,10 +26,10 @@ const EditTask = SortableElement(({ order, update, save, cancel, task }) => {
         update({ ...task, snoozeUntil: moment(day) });
     };
     return (
-        <div className="row separated shadow">
+        <div className="row edit_task shadow">
             <input type="text" className="task_title" value={task.title} onChange={e => update({ ...task, title: e.target.value })} autoFocus />
+            <i className="snooze_task task_action fas fa-clock" onClick={toggleDatePicker}></i>
             <div style={{ position: 'relative' }}>
-                <i className="snooze_task task_action fas fa-clock" onClick={showDatePicker}></i>
                 <div id="date_picker" className="shadow date_picker">
                     <DayPicker onDayClick={snoozeDaySelected} selectedDays={task.snoozeUntil ? task.snoozeUntil.toDate() : null} />
                 </div>

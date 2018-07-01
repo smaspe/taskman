@@ -25,7 +25,7 @@ const Task = SortableElement(({ task, setTaskStatus, editTask }) => {
         </span>
         : null;
     return (
-        <div className="task_item row shadow" onClick={editTask}>
+        <div className="task_item row" onClick={editTask}>
             <span className={"task_title" + (isCompleted ? ' done' : '')}>
                 {task.title}
                 {!isCompleted ? snooze : null}

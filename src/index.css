@@ -24,12 +24,20 @@ body {
   box-shadow: 4px 4px 8px 0px;
 }
 
+.edit_task {
+  padding: 8px;
+  margin: -8px;
+  z-index: 1;
+  background: white;
+}
+
 .date_picker {
   display: none;
   position: absolute;
   z-index: 2;
   background: white;
-  right: calc(100% - 48px);
+  right: 100%;
+  top: 100%;
 }
 
 .row {
@@ -50,15 +58,6 @@ body {
   font-size: 13.333px;
 }
 
-.task_action {
-  font-size: 16px;
-  padding: 16px;
-  width: 16px;
-  text-align: center;
-  color: white;
-  cursor: pointer;
-}
-
 .fa-square,
 .fa-check-square {
   font-size: 20px;
@@ -68,22 +67,50 @@ body {
 }
 
 .add_task {
+  text-align: center;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 16px;
+  width: 16px;
+  color: white;
   background: steelblue;
 }
 
+.task_action {
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%;
+  align-self: center;
+  line-height: 48px;
+  width: 48px;
+}
+
 .snooze_task {
+  color: darkgoldenrod;
+}
+.snooze_task:hover {
   background: darkgoldenrod;
+  color: white;
 }
 
 .save_task {
+  color: darkgreen;
+}
+.save_task:hover {
   background: darkgreen;
+  color: white;
 }
 
 .cancel_task {
+  color: darkred;
+}
+.cancel_task:hover {
   background: darkred;
+  color: white;
 }
 
 .task_list {
+  background: lightgrey;
   margin-bottom:-8px;
 }
 

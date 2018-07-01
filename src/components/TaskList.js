@@ -21,7 +21,7 @@ const TaskList = SortableContainer(({ taskList, edit, setTaskStatus, editTask })
             key={task.task_id} index={index} />
     });
     return (
-        <div className="task_list">
+        <div className="task_list shadow">
             <TaskListHeader />
             {tasks}
         </div>
