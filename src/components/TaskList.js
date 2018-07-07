@@ -9,11 +9,12 @@ import { insert } from '../tools/orderIndex';
 import { taskSort } from '../db';
 import TaskListHeader from './TaskListHeader';
 import EditTask from './EditTask';
+import { CSSTransitionGroup } from 'react-transition-group'
 
 const TaskList = SortableContainer(({ taskList, edit, setTaskStatus, editTask }) => {
     const tasks = taskList.map((task, index) => {
         if (edit && edit.task_id === task.task_id) {
-            return <EditTask task={edit} key={edit.task_id} index={index}/>;
+            return <EditTask task={edit} key={'edit' + edit.task_id} index={index} />;
         }
         return <Task task={task}
             setTaskStatus={status => setTaskStatus(task, status)}
@@ -23,7 +24,12 @@ const TaskList = SortableContainer(({ taskList, edit, setTaskStatus, editTask })
     return (
         <div className="task_list shadow">
             <TaskListHeader />
-            {tasks}
+            <CSSTransitionGroup
+                transitionEnterTimeout={1}
+                transitionLeave={false}
+                transitionName="edit">
+                {tasks}
+            </CSSTransitionGroup>
         </div>
 
     );

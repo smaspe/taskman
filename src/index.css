@@ -24,6 +24,24 @@ body {
   box-shadow: 4px 4px 8px 0px;
 }
 
+.edit_task.edit-enter {
+  padding: 0px;
+  margin: 0px;
+}
+
+.edit_task.edit-enter.edit-enter-active {
+  padding: 8px;
+  margin: -8px;
+  transition: padding .1s ease, margin .1s ease;
+}
+
+.task_item.edit-leave {
+  display:none;
+}
+.task_item.edit-leave.edit-leave-active {
+  display:none;
+}
+
 .edit_task {
   padding: 8px;
   margin: -8px;
